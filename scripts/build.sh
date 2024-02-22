@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(dirname "${0}")
+
+source "${SCRIPT_DIR}"/set_vars.sh
+
+# Public: Inject the version and builds the binary to .build/aether.
+#
+# $1 - [optional] a version to inject, otherwise the version from the VERSION file is read.
+#
+# Examples
+#
+#   ./bin/build.sh # reads the version in the VERSION file
+#   ./bin/build.sh "1.2.3"
+#
+# Returns exit code 0.
+function main() {
+  local version
+
+  set_vars
+
+  version=$(<VERSION)
+
+  # if the version argument exists, use it
+  if [ -n "$1" ]; then
+    version="$1"
+  fi
+
+  printf "%b compiling binary...\n" "${INFO_PREFIX}"
+  go build -o "${BUILD_DIR}"/"${APPLICATION_NAME}" -ldflags "-X main.Version=$version" cmd/"${APPLICATION_NAME}"/main.go
+
+
+  printf "%b done!\n" "${INFO_PREFIX}"
+}
+
+# and so, it begins...
+main "$1"
