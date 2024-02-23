@@ -13,11 +13,7 @@
     "incremental": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "CommonJS",
     "moduleResolution": "Node",
     "noEmit": true,
@@ -25,48 +21,20 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "paths": {
-      "@app/animations": [
-        "src/animations"
-      ],
-      "@app/components/*": [
-        "src/components/*"
-      ],
-      "@app/constants": [
-        "src/constants"
-      ],
-      "@app/enums": [
-        "src/enums"
-      ],
-      "@app/errors": [
-        "src/errors"
-      ],
-      "@app/entities": [
-        "src/entities"
-      ],
-      "@app/features/*": [
-        "src/features/*"
-      ],
-      "@app/graphql": [
-        "src/graphql"
-      ],
-      "@app/hooks/*": [
-        "src/hooks/*"
-      ],
-      "@app/selectors": [
-        "src/selectors"
-      ],
-      "@app/theme": [
-        "src/theme"
-      ],
-      "@app/translations": [
-        "src/translations"
-      ],
-      "@app/types": [
-        "src/types"
-      ],
-      "@app/utils": [
-        "src/utils"
-      ]
+      "@app/animations": ["src/animations"],
+      "@app/components/*": ["src/components/*"],
+      "@app/constants": ["src/constants"],
+      "@app/enums": ["src/enums"],
+      "@app/errors": ["src/errors"],
+      "@app/entities": ["src/entities"],
+      "@app/features/*": ["src/features/*"],
+      "@app/graphql": ["src/graphql"],
+      "@app/hooks/*": ["src/hooks/*"],
+      "@app/selectors": ["src/selectors"],
+      "@app/theme": ["src/theme"],
+      "@app/translations": ["src/translations"],
+      "@app/types": ["src/types"],
+      "@app/utils": ["src/utils"]
     },
     "removeComments": true,
     "resolveJsonModule": true,
@@ -90,7 +58,5 @@
     "app/@types/environment.d.ts",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
