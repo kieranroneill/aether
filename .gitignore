@@ -271,3 +271,8 @@ fabric.properties
 ### Miscellaneous
 
 .build/
+.config/
+
+# next.js
+/.next/
+/out/

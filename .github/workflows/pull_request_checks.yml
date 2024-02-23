@@ -1,0 +1,66 @@
+name: "Pull Request Checks"
+
+on:
+  pull_request:
+
+jobs:
+  ##
+  # install
+  ##
+
+  install:
+    name: "Install"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🛎 Checkout"
+        uses: actions/checkout@v4
+      - name: "🧶 Setup Yarn Dependencies"
+        uses: ./.github/actions/use-yarn-dependencies
+      - name: "🦫 Setup Golang Dependencies"
+        uses: ./.github/actions/use-golang-dependencies
+
+  ##
+  # lint and build
+  ##
+
+  lint:
+    name: "Lint"
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🛎 Checkout"
+        uses: actions/checkout@v4
+      - name: "🧶 Setup Yarn Dependencies"
+        uses: ./.github/actions/use-yarn-dependencies
+      - name: "👕 Lint"
+        run: yarn lint
+
+  build_core_app:
+    name: "Build Core App"
+    needs: install
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: "🛎 Checkout"
+        uses: actions/checkout@v4
+      - name: "🦫 Setup Golang Dependencies"
+        uses: ./.github/actions/use-golang-dependencies
+      - name: "🏗️ Build"
+        run: |
+          make setup
+          make build-core
+
+  build_web_app:
+    name: "Build Web App"
+    needs: install
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: "🛎 Checkout"
+        uses: actions/checkout@v4
+      - name: "🧶 Setup Yarn Dependencies"
+        uses: ./.github/actions/use-yarn-dependencies
+      - name: "🏗️ Build"
+        run: |
+          make setup
+          ./scripts/load_env_vars.sh "web" && make build-web

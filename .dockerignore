@@ -1,0 +1,7 @@
+.build/
+.config/
+.git/
+.idea/
+.next/
+.vscode/
+node_modules/
