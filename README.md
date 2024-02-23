@@ -91,14 +91,16 @@ make
 
 ### 3.1. Useful commands
 
-| Command           | Description                                                                                      |
-|-------------------|--------------------------------------------------------------------------------------------------|
-| `make`            | Installs dependencies, setups the basic configuration and runs the Docker Compose configuration. |
-| `make build-core` | Builds the core app into a binary to the `.build/` directory.                                    |
-| `make clean`      | Deletes the build directory.                                                                     |
-| `make install`    | Installs the yarn dependencies.                                                                  |
-| `yarn run`        | Checks if the apps are correctly configured and runs Docker Compose.                             |
-| `make setup`      | Creates the `.env.*` files to the `.config/` directory.                                          |
+| Command           | Description                                                                                                                              |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `make`            | Installs dependencies, setups the basic configuration and runs the Docker Compose configuration. Intended for development purposes only. |
+| `make build-core` | Builds the core app into a binary to the `.build/` directory.                                                                            |
+| `make dev-core`   | Runs the core app using `go run`. Intended for development purposes only.                                                                |
+| `make dev-web`    | Runs the web app using `next dev`. Intended for development purposes only.                                                               |
+| `make clean`      | Deletes the build directory.                                                                                                             |
+| `make install`    | Installs the yarn and golang dependencies.                                                                                               |
+| `make run`        | Checks if the apps are correctly configured and runs Docker Compose.                                                                     |
+| `make setup`      | Creates the `.env.*` files to the `.config/` directory.                                                                                  |
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
@@ -109,6 +111,7 @@ Here is a list of all the localhost port mappings for each of the apps
 | Port   | URL                                            | Docker Compose Service |
 |--------|------------------------------------------------|------------------------|
 | `3000` | [http://localhost:3000](http://localhost:3000) | `core_app`             |
+| `8080` | [http://localhost:8080](http://localhost:8080) | `web_app`              |
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
