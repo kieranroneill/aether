@@ -9,14 +9,14 @@
   },
   "author": {
     "name": "Kieran O'Neill",
-    "email": "kieran@agoralabs.sh",
+    "email": "hello@kieranoneill",
     "url": "https://github.com/kieranroneill"
   },
   "license": "GPL-3.0-or-later",
   "private": true,
   "keywords": [
     "storage",
-    "goland",
+    "golang",
     "nextjs"
   ],
   "engines": {
@@ -28,6 +28,14 @@
   "devDependencies": {
     "@commitlint/cli": "^18.6.1",
     "@commitlint/config-conventional": "^18.6.2",
-    "husky": "^8.0.3"
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^11.1.0",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6",
+    "@semantic-release/npm": "^11.0.2",
+    "@semantic-release/release-notes-generator": "^12.1.0",
+    "husky": "^8.0.3",
+    "semantic-release": "^23.0.2"
   }
 }

@@ -78,7 +78,7 @@ make install
 make
 ```
 
-> ⚠️ **NOTE:** The `make` command will re-run `make install`, but will not overwrite any `.env.*` that may have been edited in section [1.2.](#22-setting-up-environment-variables-optional)
+> ⚠️ **NOTE:** The `make` command will run/re-run `make install`, but will not overwrite any `.env.*` that may have been edited in section [1.2.](#22-setting-up-environment-variables-optional)
 
 2. Navigate to [http://localhost:8080](http://localhost:8080) to access the web portal.
 
@@ -88,13 +88,13 @@ make
 
 ### 3.1. Useful commands
 
-| Command           | Description                                                           |
-|-------------------|-----------------------------------------------------------------------|
-| `make`            | Setups the basic configuration and runs Docker Compose orchestration. |
-| `make install`    | Creates the `.env.*` files to the `.config/` directory.               |
-| `make build-core` | Builds the core app into a binary to the `.build/` directory.         |
-| `make clean`      | Deletes the build directory                                           |
-| `yarn run`        | Checks if the apps are correctly configured and runs Docker Compose.  |
+| Command           | Description                                                                            |
+|-------------------|----------------------------------------------------------------------------------------|
+| `make`            | Setups the basic configuration and runs Docker Compose orchestration.                  |
+| `make install`    | Creates the `.env.*` files to the `.config/` directory and installs yarn dependencies. |
+| `make build-core` | Builds the core app into a binary to the `.build/` directory.                          |
+| `make clean`      | Deletes the build directory                                                            |
+| `yarn run`        | Checks if the apps are correctly configured and runs Docker Compose.                   |
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
