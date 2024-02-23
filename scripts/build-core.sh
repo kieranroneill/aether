@@ -10,8 +10,8 @@ source "${SCRIPT_DIR}"/set_vars.sh
 #
 # Examples
 #
-#   ./scripts/build.sh # reads the version in the VERSION file
-#   ./scripts/build.sh "1.2.3"
+#   ./scripts/build-core.sh # reads the version in the VERSION file
+#   ./scripts/build-core.sh "1.2.3"
 #
 # Returns exit code 0.
 function main() {
@@ -26,7 +26,7 @@ function main() {
     version="$1"
   fi
 
-  printf "%b compiling binary...\n" "${INFO_PREFIX}"
+  printf "%b compiling core binary...\n" "${INFO_PREFIX}"
   go build -o "${BUILD_DIR}"/core -ldflags "-X main.Version=$version" "${CORE_SRC_DIR}"/main.go
 
   printf "%b done!\n" "${INFO_PREFIX}"

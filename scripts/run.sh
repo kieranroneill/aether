@@ -15,7 +15,7 @@ function main() {
   set_vars
 
   # check core configuration
-  if [ ! -f configs/.env.core ]; then
+  if [ ! -f .config/.env.core ]; then
     printf "\n%b core application not configured correctly, have you run 'make install'?" "${ERROR_PREFIX}"
 
     exit 1

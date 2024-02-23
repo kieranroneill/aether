@@ -4,7 +4,7 @@ SCRIPT_DIR=$(dirname "${0}")
 
 source "${SCRIPT_DIR}"/set_vars.sh
 
-# Public: Creates env files if they don't exist.
+# Public: Creates .env.* files for each application, if they don't exist.
 #
 # Examples
 #
@@ -16,10 +16,18 @@ function main() {
 
   printf "%b creating env files...\n" "${INFO_PREFIX}"
 
+  if [[ ! -d "${CONFIG_DIR}" ]];
+    then
+      printf "%b creating new %b directory... \n" "${INFO_PREFIX}" "${CONFIG_DIR}"
+      mkdir -p "${CONFIG_DIR}"
+  fi
+
   # create the .env.* files
-  cp -n "${CONFIGS_DIR}/.env.core.example" "${CONFIGS_DIR}/.env.core"
+  cp -n "${CONFIGS_DIR}/.env.core.example" "${CONFIG_DIR}/.env.core"
 
   printf "%b done!\n" "${INFO_PREFIX}"
+
+  exit 0
 }
 
 # and so, it begins...

@@ -29,7 +29,7 @@ RUN go mod download
 RUN go mod verify
 
 # build the binary
-RUN make build
+RUN make build-core
 
 ####
 # This simply runs the application.

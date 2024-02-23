@@ -4,8 +4,12 @@ scripts_dir := ./scripts
 
 all: install run
 
-build:
-	$(scripts_dir)/build.sh
+build-core:
+	$(scripts_dir)/build-core.sh
+
+clean:
+	rm -rf .build
+	rm -rf .config
 
 install:
 	$(scripts_dir)/install.sh

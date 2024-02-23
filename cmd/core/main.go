@@ -1,7 +1,6 @@
 package main
 
 import (
-	"aether/internal/constants"
 	"aether/internal/types"
 	"fmt"
 	"github.com/labstack/echo/v4"
@@ -17,7 +16,7 @@ func main() {
 	e.GET("/version", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, types.Application{
 			Environment: os.Getenv("ENVIRONMENT"),
-			Name:        constants.Name,
+			Name:        os.Getenv("NAME"),
 			Version:     Version,
 		})
 	})

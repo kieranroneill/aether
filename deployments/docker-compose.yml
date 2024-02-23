@@ -11,7 +11,7 @@ services:
       dockerfile: ./build/package/core/Dockerfile
     container_name: aether_core_app
     env_file:
-      - ../configs/.env.core
+      - ../.config/.env.core
     image: aether/core-app
     networks:
       - aether
