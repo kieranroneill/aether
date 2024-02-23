@@ -102,10 +102,6 @@ const RootLayout: FC<ILayoutProps> = ({ children }) => {
         <meta name="theme-color" content="#ffffff" />
 
         <title>{`${process.env.NEXT_PUBLIC_TAGLINE} | ${process.env.NEXT_PUBLIC_TITLE}`}</title>
-        <meta
-          name="description"
-          content={process.env.NEXT_PUBLIC_DESCRIPTION}
-        />
       </head>
 
       <body>

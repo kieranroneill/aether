@@ -11,10 +11,12 @@ import { DEFAULT_GAP } from '@app/constants';
 
 // hooks
 import useDefaultTextColor from '@app/hooks/useDefaultTextColor';
+import usePrimaryColor from '@app/hooks/usePrimaryColor';
 
-const Page: NextPage = () => {
+const IndexPage: NextPage = () => {
   // hooks
   const defaultTextColor: string = useDefaultTextColor();
+  const primaryColor: string = usePrimaryColor();
 
   return (
     <VStack
@@ -25,7 +27,7 @@ const Page: NextPage = () => {
       w="full"
     >
       {/*icon*/}
-      <AetherIcon h={20} w={20} />
+      <AetherIcon color={primaryColor} h={32} w={32} />
 
       {/*heading*/}
       <Heading color={defaultTextColor} size="lg" textAlign="center" w="full">
@@ -34,10 +36,10 @@ const Page: NextPage = () => {
 
       {/*description*/}
       <Text color={defaultTextColor} size="md" textAlign="center" w="full">
-        {process.env.NEXT_PUBLIC_DESCRIPTION}
+        {`${process.env.NEXT_PUBLIC_DESCRIPTION}.`}
       </Text>
     </VStack>
   );
 };
 
-export default Page;
+export default IndexPage;
