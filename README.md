@@ -45,7 +45,9 @@
 
 ### 1.1. Project structure
 
-The project structure is loosely based on the layout outlined in [golang-standards/project-layout](https://github.com/golang-standards/project-layout).
+The project structure is loosely based on the layout outlined in [golang-standards/project-layout](https://github.com/golang-standards/project-layout). The exceptions are:
+
+* The `web` is renamed to `app` to conform to the [Next.js 13+][nextjs] requirements.
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
@@ -128,6 +130,7 @@ Please refer to the [COPYING][copying] file.
 [docker]: https://docs.docker.com/get-docker/
 [docker-compose]: https://docs.docker.com/compose/install/
 [make]: https://www.gnu.org/software/make/
+[nextjs]: https://nextjs.org/docs/getting-started/project-structure
 [node]: https://nodejs.org/en/
 [table-of-contents]: #table-of-contents
 [yarn]: https://yarnpkg.com/

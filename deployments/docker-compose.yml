@@ -8,15 +8,35 @@ services:
   core_app:
     build:
       context: ../
-      dockerfile: ./build/package/core/Dockerfile
+      dockerfile: ./build/package/core/Dockerfile.development
     container_name: aether_core_app
     env_file:
       - ../.config/.env.core
-    image: aether/core-app
+    image: aether/core-web
     networks:
       - aether
     ports:
-      - "3000:3000"
+      - "${CORE_APP_PORT:-3000}:${CORE_APP_PORT:-3000}"
+    volumes:
+      - ../:/usr/app:cached
+
+  web_app:
+    build:
+      context: ../
+      dockerfile: ./build/package/web/Dockerfile.development
+    container_name: aether_web_app
+    env_file:
+      - ../.config/.env.web
+    image: aether/web-app
+    networks:
+      - aether
+    ports:
+      - "${WEB_APP_PORT:-8080}:${WEB_APP_PORT:-8080}"
+    volumes:
+      - ../next.config.mjs:/usr/app/next.config.mjs:cached
+      - ../package.json:/usr/app/package.json:cached
+      - ../app:/usr/app/app:cached
+      - ../tsconfig.json:/usr/app/tsconfig.json:cached
 
 networks:
   aether:

@@ -1,0 +1,30 @@
+####
+# This stage installs the dependencies.
+####
+FROM node:20.9.0 AS installer
+
+WORKDIR /usr/app
+
+COPY package.json /usr/app
+COPY yarn.lock /usr/app
+
+RUN yarn install
+
+####
+# This stage copies over the dependencies from the previous build runs next in dev mode.
+####
+FROM node:20.9.0-alpine AS composer
+
+# install the required dependencies: bash and make
+RUN apk update \
+    && apk add --no-cache bash make
+
+WORKDIR /usr/app
+
+# copy the source files and dependencies from builder
+COPY ../../../app .
+COPY ../../../Makefile .
+COPY ../../../scripts/dev_web.sh ./scripts/dev_web.sh
+COPY --from=installer /usr/app/node_modules /usr/app/node_modules
+
+CMD ["/bin/sh", "-c", "make dev-web"]

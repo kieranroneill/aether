@@ -1,0 +1,96 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "alwaysStrict": true,
+    "baseUrl": "./",
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "paths": {
+      "@app/animations": [
+        "src/animations"
+      ],
+      "@app/components/*": [
+        "src/components/*"
+      ],
+      "@app/constants": [
+        "src/constants"
+      ],
+      "@app/enums": [
+        "src/enums"
+      ],
+      "@app/errors": [
+        "src/errors"
+      ],
+      "@app/entities": [
+        "src/entities"
+      ],
+      "@app/features/*": [
+        "src/features/*"
+      ],
+      "@app/graphql": [
+        "src/graphql"
+      ],
+      "@app/hooks/*": [
+        "src/hooks/*"
+      ],
+      "@app/selectors": [
+        "src/selectors"
+      ],
+      "@app/theme": [
+        "src/theme"
+      ],
+      "@app/translations": [
+        "src/translations"
+      ],
+      "@app/types": [
+        "src/types"
+      ],
+      "@app/utils": [
+        "src/utils"
+      ]
+    },
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": false,
+    "strictBindCallApply": false,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "target": "ES5",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "app/@types/environment.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

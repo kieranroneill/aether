@@ -10,8 +10,8 @@ source "${SCRIPT_DIR}"/set_vars.sh
 #
 # Examples
 #
-#   ./scripts/build-core.sh # reads the version in the VERSION file
-#   ./scripts/build-core.sh "1.2.3"
+#   ./scripts/build_core.sh # reads the version in the VERSION file
+#   ./scripts/build_core.sh "1.2.3"
 #
 # Returns exit code 0.
 function main() {
