@@ -1,0 +1,30 @@
+{
+  "name": "@kieranroneill/aether",
+  "version": "1.0.0",
+  "description": "A file storage platform that implements a Merkle tree directory to store multiple files",
+  "main": "./.build/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kieranroneill/aether"
+  },
+  "author": {
+    "name": "Kieran O'Neill",
+    "email": "kieran@agoralabs.sh",
+    "url": "https://github.com/kieranroneill"
+  },
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "keywords": [
+    "storage",
+    "goland",
+    "nextjs"
+  ],
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.6.1",
+    "@commitlint/config-conventional": "^18.6.2",
+    "husky": "^8.0.3"
+  }
+}

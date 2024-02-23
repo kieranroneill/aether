@@ -29,26 +29,38 @@
 
 #### Table of contents
 
-* [1. Development](#-1-development)
-  - [1.1. Requirements](#11-requirements)
-  - [1.2. Setting up environment variables (optional)](#12-setting-up-environment-variables-optional)
-  - [1.3. Running locally](#13-running-locally)
-* [2. Appendix](#-2-appendix)
-  - [2.1. Useful commands](#21-useful-commands)
-  - [Docker Compose service directory](#22-docker-compose-service-directory)
-* [3. How To Contribute](#-3-how-to-contribute)
-* [4. License](#-4-license)
+* [1. Overview](#-1-overview)
+  - [1.1. Project structure](#11-project-structure)
+* [2. Development](#-2-development)
+  - [2.1. Requirements](#21-requirements)
+  - [2.2. Setting up environment variables (optional)](#22-setting-up-environment-variables-optional)
+  - [2.3. Running locally](#23-running-locally)
+* [3. Appendix](#-3-appendix)
+  - [3.1. Useful commands](#31-useful-commands)
+  - [3.2. Docker Compose service directory](#32-docker-compose-service-directory)
+* [4. How To Contribute](#-4-how-to-contribute)
+* [5. License](#-5-license)
 
-## 🛠️ 1. Development
+## 🗂️ 1. Overview
 
-### 1.1. Requirements
+### 1.1. Project structure
 
-* Install [Docker][docker]
-* Install [Docker Compose v2.5.0+][docker-compose]
+The project structure is loosely based on the layout outlined in [golang-standards/project-layout](https://github.com/golang-standards/project-layout).
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
-### 1.2. Setting up environment variables (optional)
+## 🛠️ 2. Development
+
+### 2.1. Requirements
+
+* [Docker][docker]
+* [Docker Compose v2.5.0+][docker-compose]
+* [Make][make]
+* [Yarn v1.22.5+][yarn]
+
+<sup>[Back to top ^][table-of-contents]</sup>
+
+### 2.2. Setting up environment variables (optional)
 
 1. Create the `.env.*` files for each application to the `.config/` directory:
 ```shell script
@@ -59,22 +71,22 @@ make install
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
-### 1.3. Running locally
+### 2.3. Running locally
 
 1. Simply run:
 ```shell script
 make
 ```
 
-> ⚠️ **NOTE:** The `make` command will re-run `make install`, but will not overwrite any `.env.*` that may have been edited in section [1.2.](#12-setting-up-environment-variables-optional)
+> ⚠️ **NOTE:** The `make` command will re-run `make install`, but will not overwrite any `.env.*` that may have been edited in section [1.2.](#22-setting-up-environment-variables-optional)
 
 2. Navigate to [http://localhost:8080](http://localhost:8080) to access the web portal.
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
-## 📑 2. Appendix
+## 📑 3. Appendix
 
-### 2.1. Useful commands
+### 3.1. Useful commands
 
 | Command           | Description                                                           |
 |-------------------|-----------------------------------------------------------------------|
@@ -86,7 +98,7 @@ make
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
-### 2.2. Docker Compose service directory
+### 3.2. Docker Compose service directory
 
 Here is a list of all the localhost port mappings for each of the apps
 
@@ -96,13 +108,13 @@ Here is a list of all the localhost port mappings for each of the apps
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
-## 👏 3. How To Contribute
+## 👏 4. How To Contribute
 
 Please read the [**Contributing Guide**][contribute] to learn about the development process.
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
-## 📄 4. License
+## 📄 5. License
 
 Please refer to the [COPYING][copying] file.
 
@@ -113,6 +125,6 @@ Please refer to the [COPYING][copying] file.
 [copying]: ./COPYING
 [docker]: https://docs.docker.com/get-docker/
 [docker-compose]: https://docs.docker.com/compose/install/
-[nodejs]: https://nodejs.org/en/
+[make]: https://www.gnu.org/software/make/
 [table-of-contents]: #table-of-contents
 [yarn]: https://yarnpkg.com/
