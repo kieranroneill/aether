@@ -1,5 +1,14 @@
+scripts_dir := ./scripts
+
+.PHONY: build
+
+all: install run
+
 build:
-	./scripts/build.sh
+	$(scripts_dir)/build.sh
+
+install:
+	$(scripts_dir)/install.sh
 
 run:
-	./scripts/run.sh
+	$(scripts_dir)/run.sh

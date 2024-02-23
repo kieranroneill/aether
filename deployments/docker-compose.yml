@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  ###
+  # applications
+  ###
+
+  core_app:
+    build:
+      context: ../
+      dockerfile: ./build/package/core/Dockerfile
+    container_name: aether_core_app
+    env_file:
+      - ../configs/.env.core
+    image: aether/core-app
+    networks:
+      - aether
+    ports:
+      - "3000:3000"
+
+networks:
+  aether:
+    name: aether

@@ -271,3 +271,4 @@ fabric.properties
 ### Miscellaneous
 
 .build/
+.env.core

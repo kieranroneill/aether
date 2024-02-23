@@ -4,34 +4,31 @@ SCRIPT_DIR=$(dirname "${0}")
 
 source "${SCRIPT_DIR}"/set_vars.sh
 
-# Public: Injects the version and runs the program.
-#
-# $1 - [optional] a version to inject, otherwise the version from the VERSION file is read.
+# Public: Checks the apps have been configured correctly, then starts Docker Compose.
 #
 # Examples
 #
-#   ./bin/run.sh # reads the version in the VERSION file
-#   ./bin/run.sh "1.2.3"
+#   ./scripts/run.sh
 #
-# Returns exit code 0.
+# Returns exit code 1 if an app has not been configured correctly, otherwise, exit code 0 is returned.
 function main() {
-  local version
-
   set_vars
 
-  version=$(<VERSION)
+  # check core configuration
+  if [ ! -f configs/.env.core ]; then
+    printf "\n%b core application not configured correctly, have you run 'make install'?" "${ERROR_PREFIX}"
 
-  # if the version argument exists, use it
-  if [ -n "$1" ]; then
-    version="$1"
+    exit 1
   fi
 
-  printf "%b running %b...\n" "${INFO_PREFIX}" "${APPLICATION_NAME}"
-  go run -ldflags "-X main.Version=$version" cmd/"${APPLICATION_NAME}"/main.go
+  printf "\n%b starting docker compose...\n" "${INFO_PREFIX}"
+  docker compose \
+    -f ./deployments/docker-compose.yml \
+    up \
+    --build
 
-
-  printf "%b done!\n" "${INFO_PREFIX}"
+  exit 0
 }
 
 # and so, it begins...
-main "$1"
+main
