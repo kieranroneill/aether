@@ -30,6 +30,8 @@ function main() {
   go build -o "${BUILD_DIR}"/core -ldflags "-X main.Version=$version" "${CORE_SRC_DIR}"/main.go
 
   printf "%b done!\n" "${INFO_PREFIX}"
+
+  exit 0
 }
 
 # and so, it begins...

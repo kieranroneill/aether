@@ -1,10 +1,9 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 
-interface IProps {
-  children: ReactNode;
-}
+// types
+import type { ILayoutProps } from '@app/types';
 
-const Layout: FC<IProps> = ({ children }) => {
+const RootLayout: FC<ILayoutProps> = ({ children }) => {
   return (
     <html lang="en">
       <body>{children}</body>
@@ -12,4 +11,4 @@ const Layout: FC<IProps> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default RootLayout;

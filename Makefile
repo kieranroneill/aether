@@ -7,6 +7,9 @@ all: install setup run
 build-core:
 	$(scripts_dir)/build_core.sh
 
+build-web:
+	$(scripts_dir)/build_web.sh
+
 clean:
 	rm -rf .build
 	rm -rf .config
