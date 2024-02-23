@@ -21,7 +21,8 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "paths": {
-      "@app/types": ["app/types"]
+      "@app/types": ["app/types"],
+      "@app/fonts": ["app/fonts"]
     },
     "removeComments": true,
     "resolveJsonModule": true,

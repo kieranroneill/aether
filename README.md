@@ -9,7 +9,11 @@
 </h1>
 
 <p align="center">
-  A file storage platform that implements a Merkle tree directory to store multiple files.
+  Journey into the Aether where storage defies conventional bounds.
+</p>
+
+<p align="center">
+  Aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files.
 </p>
 
 <p align="center">
@@ -47,7 +51,8 @@
 
 The project structure is loosely based on the layout outlined in [golang-standards/project-layout](https://github.com/golang-standards/project-layout). The exceptions are:
 
-* The `web` is renamed to `app` to conform to the [Next.js 13+][nextjs] requirements.
+* The `web` directory has been renamed to `app` to conform to the [Next.js project structure][nextjs-project-structure].
+* The `public` directory contains static assets for the web app to conform to [Next.js project structure][nextjs-project-structure].
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
@@ -95,6 +100,7 @@ make
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | `make`            | Installs dependencies, setups the basic configuration and runs the Docker Compose configuration. Intended for development purposes only. |
 | `make build-core` | Builds the core app into a binary to the `.build/` directory.                                                                            |
+| `make build-web`  | Builds the web app to the `.next/` directory.                                                                                            |
 | `make dev-core`   | Runs the core app using `go run`. Intended for development purposes only.                                                                |
 | `make dev-web`    | Runs the web app using `next dev`. Intended for development purposes only.                                                               |
 | `make clean`      | Deletes the build directory.                                                                                                             |
@@ -133,7 +139,7 @@ Please refer to the [COPYING][copying] file.
 [docker]: https://docs.docker.com/get-docker/
 [docker-compose]: https://docs.docker.com/compose/install/
 [make]: https://www.gnu.org/software/make/
-[nextjs]: https://nextjs.org/docs/getting-started/project-structure
+[nextjs-project-structure]: https://nextjs.org/docs/getting-started/project-structure
 [node]: https://nodejs.org/en/
 [table-of-contents]: #table-of-contents
 [yarn]: https://yarnpkg.com/

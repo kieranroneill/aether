@@ -1,7 +1,7 @@
 {
   "name": "@kieranroneill/aether",
   "version": "1.0.0",
-  "description": "A file storage platform that implements a Merkle tree directory to store multiple files",
+  "description": "Aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files",
   "main": "./.build/index.js",
   "repository": {
     "type": "git",
@@ -15,9 +15,12 @@
   "license": "GPL-3.0-or-later",
   "private": true,
   "keywords": [
-    "storage",
     "golang",
-    "nextjs"
+    "hashing",
+    "merkle-proof",
+    "merkle-tree",
+    "nextjs",
+    "storage"
   ],
   "engines": {
     "node": ">=20.9.0"
@@ -50,12 +53,12 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-    "semantic-release": "^23.0.2"
+    "semantic-release": "^23.0.2",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "next": "^14.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "typescript": "^5.3.3"
+    "react-dom": "^18.2.0"
   }
 }
