@@ -21,8 +21,12 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "paths": {
-      "@app/types": ["app/types"],
-      "@app/fonts": ["app/fonts"]
+      "@app/components/*": ["app/components/*"],
+      "@app/constants": ["app/constants"],
+      "@app/fonts": ["app/fonts"],
+      "@app/hooks/*": ["app/hooks/*"],
+      "@app/theme": ["app/theme"],
+      "@app/types": ["app/types"]
     },
     "removeComments": true,
     "resolveJsonModule": true,

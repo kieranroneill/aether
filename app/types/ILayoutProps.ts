@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
-interface ILayoutProps {
+interface ILayoutProps<Params = Record<string, unknown>> {
   children: ReactNode;
   types: ReactNode;
-  params?: Record<string, unknown>;
+  params?: Params;
 }
 
 export default ILayoutProps;

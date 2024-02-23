@@ -1,14 +1,30 @@
-import React, { FC } from 'react';
+'use client';
+import { Center, Flex, VStack } from '@chakra-ui/react';
+import { FC } from 'react';
+
+// components
+import Footer from '@app/components/Footer';
+import Header from '@app/components/Header';
+import Providers from '@app/components/Providers';
+
+// constants
+import { BODY_BACKGROUND_COLOR, DEFAULT_GAP } from '@app/constants';
 
 // fonts
-import { latoFont } from '@app/fonts';
+import { latoFont, sawarabiMincho } from '@app/fonts';
+
+// theme
+import { theme } from '@app/theme';
 
 // types
 import type { ILayoutProps } from '@app/types';
 
 const RootLayout: FC<ILayoutProps> = ({ children }) => {
   return (
-    <html lang="en" className={latoFont.className}>
+    <html
+      className={`${latoFont.variable} ${sawarabiMincho.variable}`}
+      lang="en"
+    >
       <head>
         <link
           rel="apple-touch-icon"
@@ -92,7 +108,42 @@ const RootLayout: FC<ILayoutProps> = ({ children }) => {
         />
       </head>
 
-      <body>{children}</body>
+      <body>
+        <Providers theme={theme}>
+          <Center as="main" backgroundColor={BODY_BACKGROUND_COLOR}>
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              minH="100vh"
+              w="full"
+            >
+              <VStack alignItems="center" minH="100vh" spacing={0} w="full">
+                {/*header*/}
+                <Header />
+
+                {/*content*/}
+                <VStack
+                  flexGrow={1}
+                  maxW="500px"
+                  pb={DEFAULT_GAP * 2}
+                  pt={DEFAULT_GAP}
+                  px={DEFAULT_GAP}
+                  spacing={0}
+                  style={{
+                    marginInlineStart: '0px',
+                  }}
+                  w="full"
+                >
+                  {children}
+                </VStack>
+
+                {/*footer*/}
+                <Footer />
+              </VStack>
+            </Flex>
+          </Center>
+        </Providers>
+      </body>
     </html>
   );
 };
