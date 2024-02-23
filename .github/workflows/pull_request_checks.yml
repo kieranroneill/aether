@@ -1,0 +1,35 @@
+name: "Pull Request Checks"
+
+on:
+  pull_request:
+
+jobs:
+  ##
+  # install
+  ##
+
+  install:
+    name: "Install"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🛎 Checkout"
+        uses: actions/checkout@v4
+      - name: "🦫 Setup Golang Dependencies"
+        uses: ./.github/actions/use-golang-dependencies
+
+  ##
+  # build
+  ##
+
+  build:
+    name: "Build Core App"
+    needs: install
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: "🛎 Checkout"
+        uses: actions/checkout@v4
+      - name: "🦫 Setup Golang Dependencies"
+        uses: ./.github/actions/use-golang-dependencies
+      - name: "🏗️ Build"
+        run: make build-core

@@ -56,6 +56,7 @@ The project structure is loosely based on the layout outlined in [golang-standar
 * [Docker][docker]
 * [Docker Compose v2.5.0+][docker-compose]
 * [Make][make]
+* [Node v20.9.0+][node]
 * [Yarn v1.22.5+][yarn]
 
 <sup>[Back to top ^][table-of-contents]</sup>
@@ -64,7 +65,7 @@ The project structure is loosely based on the layout outlined in [golang-standar
 
 1. Create the `.env.*` files for each application to the `.config/` directory:
 ```shell script
-make install
+make setup
 ```
 
 2. Go to the `.config/` directory and edit each `.env.*` file.
@@ -88,13 +89,14 @@ make
 
 ### 3.1. Useful commands
 
-| Command           | Description                                                                            |
-|-------------------|----------------------------------------------------------------------------------------|
-| `make`            | Setups the basic configuration and runs Docker Compose orchestration.                  |
-| `make install`    | Creates the `.env.*` files to the `.config/` directory and installs yarn dependencies. |
-| `make build-core` | Builds the core app into a binary to the `.build/` directory.                          |
-| `make clean`      | Deletes the build directory                                                            |
-| `yarn run`        | Checks if the apps are correctly configured and runs Docker Compose.                   |
+| Command           | Description                                                                                      |
+|-------------------|--------------------------------------------------------------------------------------------------|
+| `make`            | Installs dependencies, setups the basic configuration and runs the Docker Compose configuration. |
+| `make build-core` | Builds the core app into a binary to the `.build/` directory.                                    |
+| `make clean`      | Deletes the build directory.                                                                     |
+| `make install`    | Installs the yarn dependencies.                                                                  |
+| `yarn run`        | Checks if the apps are correctly configured and runs Docker Compose.                             |
+| `make setup`      | Creates the `.env.*` files to the `.config/` directory.                                          |
 
 <sup>[Back to top ^][table-of-contents]</sup>
 
@@ -126,5 +128,6 @@ Please refer to the [COPYING][copying] file.
 [docker]: https://docs.docker.com/get-docker/
 [docker-compose]: https://docs.docker.com/compose/install/
 [make]: https://www.gnu.org/software/make/
+[node]: https://nodejs.org/en/
 [table-of-contents]: #table-of-contents
 [yarn]: https://yarnpkg.com/

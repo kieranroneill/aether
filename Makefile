@@ -2,7 +2,7 @@ scripts_dir := ./scripts
 
 .PHONY: build
 
-all: install run
+all: install setup run
 
 build-core:
 	$(scripts_dir)/build-core.sh
@@ -16,3 +16,6 @@ install:
 
 run:
 	$(scripts_dir)/run.sh
+
+setup:
+	$(scripts_dir)/setup.sh

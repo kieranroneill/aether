@@ -4,7 +4,7 @@ SCRIPT_DIR=$(dirname "${0}")
 
 source "${SCRIPT_DIR}"/set_vars.sh
 
-# Public: Creates .env.* files for each application, if they don't exist and installs yarn dependencies.
+# Public: Installs yarn and golang dependencies.
 #
 # Examples
 #
@@ -14,21 +14,16 @@ source "${SCRIPT_DIR}"/set_vars.sh
 function main() {
   set_vars
 
-  if [[ ! -d "${CONFIG_DIR}" ]];
-    then
-      printf "%b creating new %b directory... \n" "${INFO_PREFIX}" "${CONFIG_DIR}"
-      mkdir -p "${CONFIG_DIR}"
-  fi
+  printf "%b installing yarn dependencies...\n" "${INFO_PREFIX}"
 
-  printf "%b creating env files...\n" "${INFO_PREFIX}"
-
-  # create the .env.* files
-  cp -n "${CONFIGS_DIR}/.env.core.example" "${CONFIG_DIR}/.env.core"
-
-  printf "%b installing dependencies...\n" "${INFO_PREFIX}"
-
-  # install dependencies
+  # install yarn dependencies
   yarn install
+
+  printf "%b installing golang dependencies...\n" "${INFO_PREFIX}"
+
+  # install golang dependencies
+  go mod download
+  go mod verify
 
   printf "%b done!\n" "${INFO_PREFIX}"
 
