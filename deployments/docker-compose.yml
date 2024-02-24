@@ -18,7 +18,9 @@ services:
     ports:
       - "${CORE_APP_PORT:-3000}:${CORE_APP_PORT:-3000}"
     volumes:
-      - ../:/usr/app:cached
+      - ../.files:/usr/app/.files:cached
+      - ../cmd:/usr/app/cmd:cached
+      - ../internal:/usr/app/internal:cached
 
   web_app:
     build:

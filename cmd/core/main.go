@@ -2,6 +2,7 @@ package main
 
 import (
 	"aether/internal/constants"
+	"aether/internal/files"
 	"aether/internal/routes"
 	"fmt"
 	"github.com/labstack/echo/v4"
@@ -9,21 +10,23 @@ import (
 	"os"
 )
 
-var Version string
-
 func main() {
 	e := echo.New()
 
+	// create the root files directory
+	writeError := files.CreateRootFilesDirectory()
+	if writeError != nil {
+		e.Logger.Fatal(writeError.Error)
+	}
+
 	// middlewares
-	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
-		LogStatus: true,
-		LogURI:    true,
-	}))
+	e.Use(middleware.Logger())
+	e.Use(middleware.CORS()) // allow any origin, obviously a major security loophole, but this is just an experiment :)
 
 	// /files/upload
 	e.POST(fmt.Sprint(constants.FilesRoute, constants.UploadRoute), routes.NewFilesUploadRoute())
 	// /versions
-	e.GET(constants.VersionsRoute, routes.NewVersionsRoute(Version))
+	e.GET(constants.VersionsRoute, routes.NewVersionsRoute())
 
 	// start the server
 	err := e.Start(fmt.Sprintf(":%s", os.Getenv("PORT")))

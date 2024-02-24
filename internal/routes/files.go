@@ -6,7 +6,6 @@ import (
 	"aether/internal/types"
 	"fmt"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/gommon/log"
 	"io"
 	"net/http"
 	"os"
@@ -19,7 +18,9 @@ func NewFilesUploadRoute() echo.HandlerFunc {
 
 		form, err := c.MultipartForm()
 		if err != nil {
-			return err
+			c.Logger().Error(err)
+
+			return c.JSON(http.StatusInternalServerError, err)
 		}
 		formFiles := form.File["files"]
 
@@ -29,7 +30,7 @@ func NewFilesUploadRoute() echo.HandlerFunc {
 			if err != nil {
 				readError = errors.NewReadError(fmt.Sprintf("failed to read file %s", fileHeader.Filename), err)
 
-				log.Error(readError)
+				c.Logger().Error(readError)
 
 				return c.JSON(http.StatusInternalServerError, readError)
 			}
@@ -38,19 +39,19 @@ func NewFilesUploadRoute() echo.HandlerFunc {
 			// get a hash of the file
 			fileHash, hashError := internalfiles.HashFile(fileFromUpload, fileHeader.Filename)
 			if hashError != nil {
-				log.Error(hashError)
+				c.Logger().Error(hashError)
 
 				return c.JSON(http.StatusInternalServerError, hashError)
 			}
 
-			log.Printf("file %s has a hash of %s", fileHeader.Filename, fileHash)
+			c.Logger().Printf("file %s has a hash of %s", fileHeader.Filename, fileHash)
 
 			// create the file with the hash as its file name
 			fileOnStorage, err := os.Create(fileHeader.Filename)
 			if err != nil {
 				writeError = errors.NewWriteError(fmt.Sprintf("failed to write file %s", fileHeader.Filename), err)
 
-				log.Error(writeError)
+				c.Logger().Error(writeError)
 
 				return c.JSON(http.StatusInternalServerError, writeError)
 			}
@@ -60,7 +61,7 @@ func NewFilesUploadRoute() echo.HandlerFunc {
 			if _, err = io.Copy(fileOnStorage, fileFromUpload); err != nil {
 				writeError = errors.NewWriteError(fmt.Sprintf("failed to write contents of file %s", fileHeader.Filename), err)
 
-				log.Error(writeError)
+				c.Logger().Error(writeError)
 
 				return c.JSON(http.StatusInternalServerError, writeError)
 			}

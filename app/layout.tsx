@@ -136,7 +136,7 @@ const RootLayout: FC<ILayoutProps> = ({ children }) => {
                 {/*content*/}
                 <VStack
                   flexGrow={1}
-                  maxW="500px"
+                  maxW="1000px"
                   pb={DEFAULT_GAP * 2}
                   pt={DEFAULT_GAP}
                   px={DEFAULT_GAP}

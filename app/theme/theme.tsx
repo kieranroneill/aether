@@ -22,7 +22,7 @@ const theme: Dict = extendTheme({
     useSystemColorMode: true,
   },
   fonts: {
-    heading: 'var(--font-sawarabi-mincho)',
+    heading: 'var(--font-lato)',
     body: 'var(--font-lato)',
   },
 });

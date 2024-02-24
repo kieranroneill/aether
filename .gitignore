@@ -272,6 +272,7 @@ fabric.properties
 
 .build/
 .config/
+.files/
 
 # next.js
 /.next/

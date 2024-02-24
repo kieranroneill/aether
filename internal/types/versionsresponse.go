@@ -1,7 +1,7 @@
 package types
 
 type VersionsResponse struct {
-	Environment string
-	Name        string
-	Version     string
+	Environment string `json:"environment"`
+	Name        string `json:"name"`
+	Version     string `json:"version"`
 }

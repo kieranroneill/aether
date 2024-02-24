@@ -26,7 +26,8 @@
       "@app/fonts": ["app/fonts"],
       "@app/hooks/*": ["app/hooks/*"],
       "@app/theme": ["app/theme"],
-      "@app/types": ["app/types"]
+      "@app/types": ["app/types"],
+      "@app/utils/*": ["app/utils/*"]
     },
     "removeComments": true,
     "resolveJsonModule": true,
