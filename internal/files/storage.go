@@ -4,7 +4,6 @@ import (
 	"aether/internal/constants"
 	"aether/internal/errors"
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -12,14 +11,14 @@ import (
 func CreateRootFilesDirectory() *errors.WriteError {
 	_, err := os.Stat(constants.RootFileDirectory)
 	if os.IsNotExist(err) {
-		log.Printf("root file directory %s does not exist, creating a new one", constants.RootFileDirectory)
+		fmt.Printf("root file directory %s does not exist, creating a new one", constants.RootFileDirectory)
 
 		err = os.Mkdir(constants.RootFileDirectory, 0755)
 		if err != nil {
 			return errors.NewWriteError(fmt.Sprintf("failed to create directory %s", constants.RootFileDirectory), err)
 		}
 
-		log.Printf("created root file directory %s", constants.RootFileDirectory)
+		fmt.Printf("created root file directory %s", constants.RootFileDirectory)
 	}
 
 	return nil

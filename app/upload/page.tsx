@@ -52,8 +52,6 @@ const UploadPage: NextPage = () => {
   // state
   const [fileList, setFileList] = useState<FileList | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
-  // misc
-
   // handlers
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) =>
     setFileList(event.target.files);
@@ -71,9 +69,11 @@ const UploadPage: NextPage = () => {
       return;
     }
 
+    setUploading(true);
+
     // create the form data
     Array.from(fileList).forEach((file, index) =>
-      formData.append(`file-${index}`, file, file.name)
+      formData.append('files', file, file.name)
     );
 
     try {
@@ -86,8 +86,12 @@ const UploadPage: NextPage = () => {
         `${UploadPage.displayName}#${_functionName}: successfully upload files`,
         response.data
       );
+
+      setUploading(false);
     } catch (error) {
       logger.error(`${UploadPage.displayName}#${_functionName}:`, error);
+
+      setUploading(false);
 
       if ((error as AxiosError).isAxiosError) {
         toast({
