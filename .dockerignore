@@ -4,5 +4,6 @@
 .git/
 .idea/
 .next/
+.temp/
 .vscode/
 node_modules/

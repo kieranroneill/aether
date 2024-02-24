@@ -14,7 +14,13 @@ func main() {
 	e := echo.New()
 
 	// create the root files directory
-	writeError := files.CreateRootFilesDirectory()
+	writeError := files.CreateDirectory(constants.RootFileDirectory)
+	if writeError != nil {
+		e.Logger.Fatal(writeError.Error)
+	}
+
+	// create the temp files directory
+	writeError = files.CreateDirectory(constants.TempFileDirectory)
 	if writeError != nil {
 		e.Logger.Fatal(writeError.Error)
 	}
