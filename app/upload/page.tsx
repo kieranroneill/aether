@@ -19,9 +19,12 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { Metadata, NextPage } from 'next';
+import { NextPage } from 'next';
 import React, { ChangeEvent, MutableRefObject, useRef, useState } from 'react';
 import { IoCloudUploadOutline, IoDocumentsOutline } from 'react-icons/io5';
+
+// components
+import UploadCompleteModal from '@app/components/UploadCompleteModal/UploadCompleteModal';
 
 // constants
 import { DEFAULT_GAP } from '@app/constants';
@@ -36,7 +39,6 @@ import type { ILogger, IUploadResponse } from '@app/types';
 
 // utils
 import truncateString from '@app/utils/truncateString';
-import UploadCompleteModal from '@app/components/UploadCompleteModal/UploadCompleteModal';
 
 const UploadPage: NextPage = () => {
   const inputRef: MutableRefObject<HTMLInputElement | null> =
@@ -82,7 +84,7 @@ const UploadPage: NextPage = () => {
     setUploading(true);
 
     // create the form data
-    Array.from(fileList).forEach((file, index) =>
+    Array.from(fileList).forEach((file) =>
       formData.append('files', file, file.name)
     );
 

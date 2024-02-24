@@ -26,7 +26,6 @@ import NavigationLinkItem from './NavigationLinkItem';
 
 // constants
 import {
-  BODY_BACKGROUND_COLOR,
   DEFAULT_GAP,
   INDEX_ROUTE,
   UPLOAD_ROUTE,

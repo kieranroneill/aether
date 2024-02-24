@@ -38,7 +38,7 @@ const Footer: FC = () => {
             href={KIERAN_ONEILL_WEBSITE_LINK}
             isExternal={true}
           >
-            Kieran O'Neill
+            Kieran O&apos;Neill
           </Link>
           {''}.
         </Text>
