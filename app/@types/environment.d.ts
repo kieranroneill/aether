@@ -10,5 +10,6 @@ declare namespace NodeJS {
     readonly NEXT_PUBLIC_LOG_LEVEL: string;
     readonly NEXT_PUBLIC_TAGLINE: string;
     readonly NEXT_PUBLIC_TITLE: string;
+    readonly NEXT_PUBLIC_VERSION: string;
   }
 }

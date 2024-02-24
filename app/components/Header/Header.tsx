@@ -7,7 +7,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import React, { FC } from 'react';
-import { IoMoonOutline, IoSunnyOutline } from 'react-icons/io5';
+import { IoMenuOutline, IoMoonOutline, IoSunnyOutline } from 'react-icons/io5';
 
 // constants
 import { DEFAULT_GAP } from '@app/constants';
@@ -16,13 +16,17 @@ import { DEFAULT_GAP } from '@app/constants';
 import useButtonHoverBackgroundColor from '@app/hooks/useButtonHoverBackgroundColor';
 import useDefaultTextColor from '@app/hooks/useDefaultTextColor';
 
-const Header: FC = () => {
+// types
+import type { IProps } from './types';
+
+const Header: FC<IProps> = ({ onNavigationClick }) => {
   const { colorMode, toggleColorMode }: ColorModeContextType = useColorMode();
   // hooks
   const buttonHoverBackgroundColor: string = useButtonHoverBackgroundColor();
   const defaultTextColor: string = useDefaultTextColor();
   // handlers
   const handlerColorChangeClick = () => toggleColorMode();
+  const handleNavigationClick = () => onNavigationClick();
 
   return (
     <HStack
@@ -31,9 +35,22 @@ const Header: FC = () => {
       p={DEFAULT_GAP / 2}
       w="full"
     >
+      {/*open navigation menu button*/}
+      <Tooltip label={`Open navigation menu`}>
+        <IconButton
+          _hover={{ bg: buttonHoverBackgroundColor }}
+          aria-label="Open navigation drawer"
+          color={defaultTextColor}
+          icon={<IoMenuOutline />}
+          onClick={handleNavigationClick}
+          size="lg"
+          variant="ghost"
+        />
+      </Tooltip>
+
       <Spacer />
 
-      {/*color mode toggle*/}
+      {/*color mode toggle button*/}
       <Tooltip
         label={`Switch to ${colorMode === 'dark' ? 'light' : 'dark'} mode`}
       >

@@ -1,6 +1,6 @@
 package types
 
-type Application struct {
+type VersionsResponse struct {
 	Environment string
 	Name        string
 	Version     string

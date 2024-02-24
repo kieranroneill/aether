@@ -1,5 +1,5 @@
 'use client';
-import { Center, Flex, VStack } from '@chakra-ui/react';
+import { Center, Flex, VStack, useDisclosure } from '@chakra-ui/react';
 import { FC } from 'react';
 
 // components
@@ -18,8 +18,18 @@ import { theme } from '@app/theme';
 
 // types
 import type { ILayoutProps } from '@app/types';
+import Navigation from '@app/components/Navigation';
 
 const RootLayout: FC<ILayoutProps> = ({ children }) => {
+  const {
+    isOpen: isNavigationOpen,
+    onClose: onNavigationClose,
+    onOpen: onNavigationOpen,
+  } = useDisclosure();
+  // handlers
+  const handleNavigationCloseClick = () => onNavigationClose();
+  const handleNavigationOpenClick = () => onNavigationOpen();
+
   return (
     <html
       className={`${latoFont.variable} ${sawarabiMincho.variable}`}
@@ -106,6 +116,12 @@ const RootLayout: FC<ILayoutProps> = ({ children }) => {
 
       <body>
         <Providers theme={theme}>
+          {/*navigation menu*/}
+          <Navigation
+            isOpen={isNavigationOpen}
+            onClose={handleNavigationCloseClick}
+          />
+
           <Center as="main" backgroundColor={BODY_BACKGROUND_COLOR}>
             <Flex
               alignItems="center"
@@ -115,7 +131,7 @@ const RootLayout: FC<ILayoutProps> = ({ children }) => {
             >
               <VStack alignItems="center" minH="100vh" spacing={0} w="full">
                 {/*header*/}
-                <Header />
+                <Header onNavigationClick={handleNavigationOpenClick} />
 
                 {/*content*/}
                 <VStack
