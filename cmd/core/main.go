@@ -1,25 +1,38 @@
 package main
 
 import (
-	"aether/internal/types"
+	"aether/internal/constants"
+	"aether/internal/files"
+	"aether/internal/routes"
 	"fmt"
 	"github.com/labstack/echo/v4"
-	"net/http"
+	"github.com/labstack/echo/v4/middleware"
 	"os"
 )
-
-var Version string
 
 func main() {
 	e := echo.New()
 
-	e.GET("/version", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, types.Application{
-			Environment: os.Getenv("ENVIRONMENT"),
-			Name:        os.Getenv("NAME"),
-			Version:     Version,
-		})
-	})
+	// create the root files directory
+	writeError := files.CreateDirectory(constants.RootFileDirectory)
+	if writeError != nil {
+		e.Logger.Fatal(writeError.Error)
+	}
+
+	// create the temp files directory
+	writeError = files.CreateDirectory(constants.TempFileDirectory)
+	if writeError != nil {
+		e.Logger.Fatal(writeError.Error)
+	}
+
+	// middlewares
+	e.Use(middleware.Logger())
+	e.Use(middleware.CORS()) // allow any origin, obviously a major security loophole, but this is just an experiment :)
+
+	// /files/upload
+	e.POST(fmt.Sprint(constants.FilesRoute, constants.UploadRoute), routes.NewFilesUploadRoute())
+	// /versions
+	e.GET(constants.VersionsRoute, routes.NewVersionsRoute())
 
 	// start the server
 	err := e.Start(fmt.Sprintf(":%s", os.Getenv("PORT")))

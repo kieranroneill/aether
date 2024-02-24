@@ -12,6 +12,8 @@ source "${SCRIPT_DIR}"/set_vars.sh
 #
 # Returns exit code 0.
 function main() {
+  set_vars
+
   printf "%b starting web server...\n" "${INFO_PREFIX}"
   yarn dev
 

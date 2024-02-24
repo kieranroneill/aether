@@ -26,8 +26,12 @@ function main() {
     version="$1"
   fi
 
+  VERSION=$version
+
+  export VERSION
+
   printf "%b compiling core binary...\n" "${INFO_PREFIX}"
-  go build -o "${BUILD_DIR}"/core -ldflags "-X main.Version=$version" "${CORE_SRC_DIR}"/main.go
+  go build -o "${BUILD_DIR}"/core "${CORE_SRC_DIR}"/main.go
 
   printf "%b done!\n" "${INFO_PREFIX}"
 

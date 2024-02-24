@@ -18,7 +18,10 @@ services:
     ports:
       - "${CORE_APP_PORT:-3000}:${CORE_APP_PORT:-3000}"
     volumes:
-      - ../:/usr/app:cached
+      - ../.files:/usr/app/.files:cached
+      - ../.temp:/usr/app/.temp:cached
+      - ../cmd:/usr/app/cmd:cached
+      - ../internal:/usr/app/internal:cached
 
   web_app:
     build:
@@ -33,9 +36,10 @@ services:
     ports:
       - "${WEB_APP_PORT:-8080}:${WEB_APP_PORT:-8080}"
     volumes:
+      - ../app:/usr/app/app:cached
       - ../next.config.mjs:/usr/app/next.config.mjs:cached
       - ../package.json:/usr/app/package.json:cached
-      - ../app:/usr/app/app:cached
+      - ../public:/usr/app/public:cached
       - ../tsconfig.json:/usr/app/tsconfig.json:cached
 
 networks:

@@ -26,8 +26,12 @@ function main() {
     version="$1"
   fi
 
+  VERSION=$version
+
+  export VERSION
+
   printf "%b starting core server...\n" "${INFO_PREFIX}"
-  go run -ldflags "-X main.Version=$version" "${CORE_SRC_DIR}"/main.go
+  CompileDaemon -build="go build -o ${BUILD_DIR}/core ${CORE_SRC_DIR}/main.go" -command="${BUILD_DIR}/core"
 
   printf "%b done!\n" "${INFO_PREFIX}"
 

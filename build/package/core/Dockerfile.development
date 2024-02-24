@@ -22,9 +22,12 @@ RUN go mod verify
 ####
 FROM golang:1.21-alpine AS composer
 
-# install the required dependencies: bash and make
+ENV GO111MODULE=on
+
+# install the required dependencies: CompileDaemon, bash and make
 RUN apk update \
     && apk add --no-cache bash make
+RUN go install github.com/githubnemo/CompileDaemon@latest
 
 WORKDIR /usr/app
 
