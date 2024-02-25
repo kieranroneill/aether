@@ -24,7 +24,7 @@ import React, { ChangeEvent, MutableRefObject, useRef, useState } from 'react';
 import { IoCloudUploadOutline, IoDocumentsOutline } from 'react-icons/io5';
 
 // components
-import UploadCompleteModal from '@app/components/UploadCompleteModal/UploadCompleteModal';
+import UploadCompleteModal from '@app/components/UploadCompleteModal';
 
 // constants
 import { DEFAULT_GAP, FILES_PATH, UPLOAD_PATH } from '@app/constants';

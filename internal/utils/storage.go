@@ -1,28 +1,9 @@
 package utils
 
 import (
-	"aether/internal/types"
 	"fmt"
-	"io"
 	"os"
 )
-
-func SaveFilesToDir(dirName string, files []*types.FileReadData) error {
-	for _, file := range files {
-		destFile, err := os.Create(fmt.Sprintf("%s/%s", dirName, file.Name))
-		if err != nil {
-			return err
-		}
-		defer destFile.Close()
-
-		_, err = io.Copy(destFile, file.File)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
 
 // CreateDir Creates a directory folder to storage if it doesn't exist
 func CreateDir(dirName string) error {
@@ -39,4 +20,20 @@ func CreateDir(dirName string) error {
 	}
 
 	return nil
+}
+
+func DoesDirExist(dirName string) bool {
+	_, err := os.Stat(dirName)
+	if os.IsNotExist(err) {
+		return false
+	}
+
+	return true
+}
+
+func RemoveDir(dirName string) {
+	err := os.RemoveAll(dirName)
+	if err != nil {
+		fmt.Println(fmt.Sprintf("failed to remove directory %s", dirName))
+	}
 }

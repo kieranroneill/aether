@@ -15,7 +15,6 @@ import {
 import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
 import {
-  IoCheckmarkCircleOutline,
   IoChevronBackOutline,
   IoCloudUploadOutline,
   IoListOutline,
@@ -31,7 +30,6 @@ import {
   FILES_ROUTE,
   INDEX_ROUTE,
   UPLOAD_ROUTE,
-  VERIFY_ROUTE,
 } from '@app/constants';
 
 // hooks
@@ -59,11 +57,6 @@ const Navigation: FC<IProps> = ({ isOpen, onClose }) => {
       icon: IoListOutline,
       label: 'Files',
       route: FILES_ROUTE,
-    },
-    {
-      icon: IoCheckmarkCircleOutline,
-      label: 'Verify',
-      route: VERIFY_ROUTE,
     },
   ];
   // handlers
