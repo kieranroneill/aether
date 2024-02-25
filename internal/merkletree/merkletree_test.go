@@ -125,3 +125,21 @@ func TestVerifyMerkleTreeProofForEvenNumberOfHashes(t *testing.T) {
 		t.Errorf("expect root: %s, to be verified in proof", merkleRoot)
 	}
 }
+
+func TestVerifyMerkleTreeProofWithTheLastHashForAnOddNumberOfHashes(t *testing.T) {
+	merkleRoot := GenerateMerkleTreeRoot(oddNumberOfHashes)
+	merkleProof := GenerateMerkleTreeProof(oddNumberOfHashes[len(oddNumberOfHashes)-1], oddNumberOfHashes)
+
+	if !VerifyMerkleTreeProof(merkleRoot, merkleProof) {
+		t.Errorf("expect root: %s, to be verified in proof", merkleRoot)
+	}
+}
+
+func TestVerifyMerkleTreeProofWithTheLastHashForAnEvenNumberOfHashes(t *testing.T) {
+	merkleRoot := GenerateMerkleTreeRoot(evenNumberOfHashes)
+	merkleProof := GenerateMerkleTreeProof(evenNumberOfHashes[len(oddNumberOfHashes)-1], evenNumberOfHashes)
+
+	if !VerifyMerkleTreeProof(merkleRoot, merkleProof) {
+		t.Errorf("expect root: %s, to be verified in proof", merkleRoot)
+	}
+}

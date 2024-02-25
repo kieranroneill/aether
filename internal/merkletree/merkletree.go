@@ -15,21 +15,21 @@ import (
 func buildMerkleTree(hashes []string, tree [][]string) [][]string {
 	var newTreeLevel []string
 
-	// if the hashes only contain one hash, we are at the root, so return the tree as-is
+	// if the hashes only contain one hash, we are at the root, so return the tree with the root appended
 	if len(hashes) == 1 {
-		return tree
+		return append(tree, hashes)
 	}
 
 	// make sure there is an even number of hashes
 	preparedHashes := prepareHashes(hashes)
+	tree = append(tree, preparedHashes)
 
 	// for each left and right hash, concatenate and make a new hash and add it to the new level of the tree
-	for i := 0; i < len(preparedHashes); i += 2 {
+	for i := 0; i < len(hashes); i += 2 {
 		newTreeLevel = append(newTreeLevel, createHashPair(preparedHashes[i], preparedHashes[i+1]))
 	}
 
-	tree = append(tree, newTreeLevel)
-
+	// recursively call the function with the new level
 	return buildMerkleTree(newTreeLevel, tree)
 }
 
@@ -82,11 +82,8 @@ func generateMerkleTree(hashes []string) [][]string {
 		return nil
 	}
 
-	// start the tree with the hashes at index 0 - the bottom of the tree
-	tree := [][]string{hashes}
-
 	// recursively build the merkle tree
-	return buildMerkleTree(hashes, tree)
+	return buildMerkleTree(hashes, [][]string{})
 }
 
 /**
