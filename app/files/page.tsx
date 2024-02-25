@@ -68,7 +68,7 @@ const FilesPage: NextPage = () => {
 
       if (fileKeys.length > 0) {
         return (
-          <Accordion allowMultiple={true} allowToggle={true} w="full">
+          <Accordion allowMultiple={true} w="full">
             {fileKeys.map((key, fileKeyIndex) => (
               <AccordionItem key={`files-page-${key}-${fileKeyIndex}`}>
                 {/*accordian button*/}

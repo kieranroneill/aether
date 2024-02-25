@@ -6,14 +6,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 )
 
+// ExtractHashesFromFileDirectory Extracts all the file hashes from the directory and sorts them alphabetically.
 func ExtractHashesFromFileDirectory(fileDirectory []*types.FileDirectoryItem) []string {
 	hashes := make([]string, len(fileDirectory))
 
 	for i := range fileDirectory {
 		hashes[i] = fileDirectory[i].Hash
 	}
+
+	// sort the hashes alphabetically
+	sort.Strings(hashes)
 
 	return hashes
 }

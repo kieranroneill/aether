@@ -174,13 +174,13 @@ func VerifyMerkleTreeProof(root string, proof []*types.MerkleTreeProofItem) bool
 			continue
 		}
 
-		// if the next leaf is a left leaf, create the parent
+		// if the next leaf is a left leaf, create the parent with the right leaf
 		if value.Position == constants.Left {
 			leafHash = createHashPair(value.Hash, leafHash)
 			continue
 		}
 
-		// if the next leaf is a right leaf, create the parent
+		// if the next leaf is a right leaf, create the parent with the left leaf
 		leafHash = createHashPair(leafHash, value.Hash)
 	}
 

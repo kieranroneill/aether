@@ -10,13 +10,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Skeleton,
   Spacer,
   Text,
   Textarea,
   VStack,
 } from '@chakra-ui/react';
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import {
   IoCheckmarkCircleOutline,
   IoCloseCircleOutline,
@@ -27,29 +26,48 @@ import { DEFAULT_GAP } from '@app/constants';
 
 // hooks
 import useDefaultTextColor from '@app/hooks/useDefaultTextColor';
-import useLogger from '@app/hooks/useLogger';
 import usePrimaryColorScheme from '@app/hooks/usePrimaryColorScheme';
 import useSubTextColor from '@app/hooks/useSubTextColor';
 
 // types
-import type { ILogger } from '@app/types';
 import type { IProps } from './types';
 
 // utils
+import verifyMerkleProof from '@app/utils/verifyMerkleProof';
 
 const VerifyFileProofModal: FC<IProps> = ({ file, onClose }) => {
   // hooks
   const defaultTextColor: string = useDefaultTextColor();
-  const logger: ILogger = useLogger();
   const primaryColorScheme: string = usePrimaryColorScheme();
   const subTextColor: string = useSubTextColor();
   // state
-  const [rootValue, setRootValue] = useState<string | null>(null);
+  const [rootValue, setRootValue] = useState<string>('');
   const [verified, setVerified] = useState<boolean>(false);
+  // reset
+  const reset = () => {
+    setRootValue('');
+    setVerified(false);
+  };
   // handlers
-  const handleOnClose = () => onClose();
-  const handleRootValueChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
-    setRootValue(event.target.value.length > 0 ? event.target.value : null);
+  const handleOnClose = () => {
+    reset();
+    onClose();
+  };
+  const handleRootValueChange = async (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => setRootValue(event.target.value);
+
+  useEffect(() => {
+    (async () => {
+      let isValidRoot: boolean = verified;
+
+      if (file) {
+        isValidRoot = await verifyMerkleProof(rootValue, file.proof);
+      }
+
+      setVerified(isValidRoot);
+    })();
+  }, [rootValue]);
 
   return (
     <Modal closeOnOverlayClick={false} isOpen={!!file} onClose={onClose}>
@@ -120,10 +138,7 @@ const VerifyFileProofModal: FC<IProps> = ({ file, onClose }) => {
             </Text>
 
             {/*root value input*/}
-            <Textarea
-              onChange={handleRootValueChange}
-              value={rootValue || ''}
-            />
+            <Textarea onChange={handleRootValueChange} value={rootValue} />
 
             {/*verified status*/}
             <HStack
