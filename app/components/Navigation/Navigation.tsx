@@ -18,6 +18,7 @@ import {
   IoCheckmarkCircleOutline,
   IoChevronBackOutline,
   IoCloudUploadOutline,
+  IoListOutline,
 } from 'react-icons/io5';
 
 // components
@@ -27,6 +28,7 @@ import NavigationLinkItem from './NavigationLinkItem';
 // constants
 import {
   DEFAULT_GAP,
+  FILES_ROUTE,
   INDEX_ROUTE,
   UPLOAD_ROUTE,
   VERIFY_ROUTE,
@@ -52,6 +54,11 @@ const Navigation: FC<IProps> = ({ isOpen, onClose }) => {
       icon: IoCloudUploadOutline,
       label: 'Upload',
       route: UPLOAD_ROUTE,
+    },
+    {
+      icon: IoListOutline,
+      label: 'Files',
+      route: FILES_ROUTE,
     },
     {
       icon: IoCheckmarkCircleOutline,
@@ -82,7 +89,7 @@ const Navigation: FC<IProps> = ({ isOpen, onClose }) => {
             {/*icon*/}
             <IconButton
               _hover={{ bg: 'transparent' }}
-              aria-label="Go to hom epage"
+              aria-label="Go To Home"
               color={primaryColor}
               icon={<AetherIcon h={12} w={12} />}
               onClick={handleHomeClick}
@@ -93,7 +100,7 @@ const Navigation: FC<IProps> = ({ isOpen, onClose }) => {
             <Spacer />
 
             {/*close navigation menu button*/}
-            <Tooltip label={`Close navigation menu`}>
+            <Tooltip label={`Close Menu`}>
               <IconButton
                 _hover={{ bg: buttonHoverBackgroundColor }}
                 aria-label="Close navigation drawer"

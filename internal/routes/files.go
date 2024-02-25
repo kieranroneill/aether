@@ -14,6 +14,8 @@ import (
 
 func NewGetFilesRoute() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		var filesResponse map[string][]*types.FileResponse
+		var hashes []string
 		var readError *errors.ReadError
 
 		fileDirectories, err := utils.GetAllFileDirectories()
@@ -25,7 +27,25 @@ func NewGetFilesRoute() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, readError)
 		}
 
-		return c.JSON(http.StatusOK, fileDirectories)
+		filesResponse = map[string][]*types.FileResponse{}
+
+		// add the merkle proofs to the file directories
+		for key, fileDirectory := range fileDirectories {
+			hashes = utils.ExtractHashesFromFileDirectory(fileDirectory)
+			sort.Slice(hashes, func(i int, j int) bool {
+				return hashes[i] < hashes[j]
+			})
+
+			for _, value := range fileDirectory {
+				filesResponse[key] = append(filesResponse[key], &types.FileResponse{
+					Hash:  value.Hash,
+					Name:  value.Name,
+					Proof: merkletree.GenerateMerkleTreeProof(value.Hash, hashes),
+				})
+			}
+		}
+
+		return c.JSON(http.StatusOK, filesResponse)
 	}
 }
 
