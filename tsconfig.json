@@ -23,6 +23,7 @@
     "paths": {
       "@app/components/*": ["app/components/*"],
       "@app/constants": ["app/constants"],
+      "@app/enums": ["app/enums"],
       "@app/fonts": ["app/fonts"],
       "@app/hooks/*": ["app/hooks/*"],
       "@app/theme": ["app/theme"],

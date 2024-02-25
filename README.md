@@ -5,15 +5,15 @@
 </p>
 
 <h1 align="center">
-   Aether
+   aether
 </h1>
 
 <p align="center">
-  Journey into the Aether where storage defies conventional bounds.
+  Journey into the aether where storage defies conventional bounds.
 </p>
 
 <p align="center">
-  Aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files.
+  aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files.
 </p>
 
 <p align="center">
@@ -86,7 +86,7 @@ make setup
 make
 ```
 
-> ⚠️ **NOTE:** The `make` command will run/re-run `make install`, but will not overwrite any `.env.*` that may have been edited in section [1.2.](#22-setting-up-environment-variables-optional)
+> ⚠️ **NOTE:** The `make` command will run/re-run `make setup`, but will not overwrite any `.env.*` that may have been edited in section [1.2.](#22-setting-up-environment-variables-optional)
 
 2. Navigate to [http://localhost:8080](http://localhost:8080) to access the web portal.
 
@@ -105,8 +105,8 @@ make
 | `make dev-web`    | Runs the web app using `next dev`. Intended for development purposes only.                                                               |
 | `make clean`      | Deletes the build directory.                                                                                                             |
 | `make install`    | Installs the yarn and golang dependencies.                                                                                               |
-| `make run`        | Checks if the apps are correctly configured and runs Docker Compose.                                                                     |
-| `make setup`      | Creates the `.env.*` files to the `.config/` directory.                                                                                  |
+| `make run`        | Checks if the apps are correctly configured and runs Docker Compose.  Intended for development purposes only.                            |
+| `make setup`      | Creates `.env.*` files in the `.config/` directory.                                                                                      |
 
 <sup>[Back to top ^][table-of-contents]</sup>
 

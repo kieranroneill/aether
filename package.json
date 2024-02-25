@@ -1,7 +1,7 @@
 {
   "name": "@kieranroneill/aether",
   "version": "1.0.0",
-  "description": "Aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files",
+  "description": "aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files",
   "main": "./.build/index.js",
   "repository": {
     "type": "git",
@@ -26,8 +26,8 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
+    "build": "EXT_PUBLIC_VERSION=$npm_package_version next build",
+    "dev": "NEXT_PUBLIC_VERSION=$npm_package_version next dev",
     "lint": "next lint",
     "prepare": "husky install",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,json,ts,tsx}\"",

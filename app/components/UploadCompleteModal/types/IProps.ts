@@ -1,6 +1,9 @@
+// types
+import type { IUploadResponse } from '@app/types';
+
 interface IProps {
-  merkleTreeRootHash: string | null;
   onClose: () => void;
+  uploadResponse: IUploadResponse | null;
 }
 
 export default IProps;

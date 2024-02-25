@@ -36,7 +36,7 @@ const Header: FC<IProps> = ({ onNavigationClick }) => {
       w="full"
     >
       {/*open navigation menu button*/}
-      <Tooltip label={`Open navigation menu`}>
+      <Tooltip label={`Open Navigation Menu`}>
         <IconButton
           _hover={{ bg: buttonHoverBackgroundColor }}
           aria-label="Open navigation drawer"
@@ -56,7 +56,7 @@ const Header: FC<IProps> = ({ onNavigationClick }) => {
       >
         <IconButton
           _hover={{ bg: buttonHoverBackgroundColor }}
-          aria-label="Change color mode"
+          aria-label="Change Color Mode"
           color={defaultTextColor}
           icon={colorMode === 'dark' ? <IoSunnyOutline /> : <IoMoonOutline />}
           onClick={handlerColorChangeClick}
