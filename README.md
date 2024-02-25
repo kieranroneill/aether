@@ -9,11 +9,11 @@
 </h1>
 
 <p align="center">
-  Journey into the Aether where storage defies conventional bounds.
+  Journey into the aether where storage defies conventional bounds.
 </p>
 
 <p align="center">
-  Aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files.
+  aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files.
 </p>
 
 <p align="center">

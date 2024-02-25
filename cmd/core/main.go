@@ -14,7 +14,7 @@ func main() {
 	e := echo.New()
 
 	// create the root files directory
-	err := utils.CreateDirectory(constants.RootFileDirectory)
+	err := utils.CreateDir(constants.RootFileDirectory)
 	if err != nil {
 		e.Logger.Fatal(err)
 	}

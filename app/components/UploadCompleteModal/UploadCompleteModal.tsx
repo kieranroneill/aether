@@ -52,8 +52,8 @@ const UploadCompleteModal: FC<IProps> = ({ onClose, uploadResponse }) => {
       return;
     }
 
-    // create a data uri from the json and download it
-    downloadJSONFile('response', uploadResponse);
+    // create a data uri from the json and download it - use the merkle root as the file name
+    downloadJSONFile(uploadResponse.root, uploadResponse);
   };
 
   return (

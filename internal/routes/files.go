@@ -8,22 +8,31 @@ import (
 	"aether/internal/utils"
 	"fmt"
 	"github.com/labstack/echo/v4"
-	"io"
 	"net/http"
-	"os"
 	"sort"
 )
 
 func NewGetFilesRoute() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return c.JSON(http.StatusOK, c)
+		var readError *errors.ReadError
+
+		fileDirectories, err := utils.GetAllFileDirectories()
+		if err != nil {
+			readError = errors.NewReadError("failed to get file directories", err)
+
+			fmt.Println(readError)
+
+			return c.JSON(http.StatusInternalServerError, readError)
+		}
+
+		return c.JSON(http.StatusOK, fileDirectories)
 	}
 }
 
 func NewPostFilesUploadRoute() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var fileDirectory []*types.FileDirectoryItem
-		var hashError *errors.HashError
+		var files []*types.FileReadData
 		var readError *errors.ReadError
 		var writeError *errors.WriteError
 
@@ -34,27 +43,7 @@ func NewPostFilesUploadRoute() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, err)
 		}
 
-		formFiles := form.File["files"]
-		subDirName, err := utils.CreateRandomSha256Hash()
-		if err != nil {
-			hashError = errors.NewHashError("failed to create .files/ subdirectory hash", err)
-
-			fmt.Println(hashError)
-
-			return c.JSON(http.StatusInternalServerError, hashError)
-		}
-
-		dirName := fmt.Sprintf("%s/%s", constants.RootFileDirectory, subDirName)
-
-		// create the subdirectory to store these files
-		err = utils.CreateDirectory(dirName)
-		if err != nil {
-			writeError = errors.NewWriteError(fmt.Sprintf("failed create the %s directory", dirName), err)
-
-			fmt.Println(writeError)
-
-			return c.JSON(http.StatusInternalServerError, writeError)
-		}
+		formFiles := form.File["file"]
 
 		// iterate through each file, hash it and copy it to the .files/<subDirName> directory
 		for _, fileHeader := range formFiles {
@@ -81,53 +70,71 @@ func NewPostFilesUploadRoute() echo.HandlerFunc {
 
 			fmt.Println(fmt.Sprintf("file %s has a hash of %s", fileHeader.Filename, fileHash))
 
+			// add files so they can be written to storage when we have the merkle root
+			files = append(files, &types.FileReadData{
+				File: uploadFile,
+				Name: fileHeader.Filename,
+			})
+
 			// add to the directory
 			fileDirectory = append(fileDirectory, &types.FileDirectoryItem{
 				Hash: fileHash,
 				Name: fileHeader.Filename,
 			})
-
-			// store the file in the .files/<subDirName> directory
-			destFile, err := os.Create(fmt.Sprintf("%s/%s", dirName, fileHeader.Filename))
-			if err != nil {
-				writeError = errors.NewWriteError(fmt.Sprintf("failed to write file to %s/%s", dirName, fileHeader.Filename), err)
-
-				fmt.Println(writeError)
-
-				return c.JSON(http.StatusInternalServerError, writeError)
-			}
-			defer destFile.Close()
-
-			// copy file contents to of the files from the upload to the source
-			if _, err = io.Copy(destFile, uploadFile); err != nil {
-				writeError = errors.NewWriteError(fmt.Sprintf("failed to write contents of file %s", fileHeader.Filename), err)
-
-				fmt.Println(writeError)
-
-				return c.JSON(http.StatusInternalServerError, writeError)
-			}
 		}
 
-		// sort the directory by hash
+		// sort the files by hash
 		sort.Slice(fileDirectory, func(i int, j int) bool {
 			return fileDirectory[i].Hash < fileDirectory[j].Hash
 		})
 
-		// create a merkle tree root
-		merkleTreeRoot := merkletree.GenerateMerkleTreeRoot(utils.ExtractHashesFromFileDirectory(fileDirectory))
+		// create a merkle root
+		merkleRoot := merkletree.GenerateMerkleTreeRoot(utils.ExtractHashesFromFileDirectory(fileDirectory))
 
-		fmt.Println(fmt.Sprintf("created merkle tree root %s", merkleTreeRoot))
+		fmt.Println(fmt.Sprintf("created merkle root %s", merkleRoot))
 
-		// create a directory file
-		err = utils.WriteFileDirectoryToStorage(dirName, fileDirectory)
-		if err != nil {
-			fmt.Println(fmt.Sprintf("failed to create directory file at %s", dirName))
+		// if we have an empty merkle root, no files were uploaded
+		if merkleRoot == "" {
+			fmt.Println("empty merkle root there was no files added to directory")
+
+			return c.NoContent(http.StatusBadRequest)
 		}
 
-		// finally return the merkle tree root
+		// create a subdirectory to store the files using the merkle root hash as the directory name
+		dirName := fmt.Sprintf("%s/%s", constants.RootFileDirectory, merkleRoot)
+		err = utils.CreateDir(dirName)
+		if err != nil {
+			writeError = errors.NewWriteError(fmt.Sprintf("failed create the %s directory", dirName), err)
+
+			fmt.Println(writeError)
+
+			return c.JSON(http.StatusInternalServerError, writeError)
+		}
+
+		// add the files to the directory
+		err = utils.SaveFilesToDir(dirName, files)
+		if err != nil {
+			writeError = errors.NewWriteError(fmt.Sprintf("failed write files to %s", dirName), err)
+
+			fmt.Println(writeError)
+
+			return c.JSON(http.StatusInternalServerError, writeError)
+		}
+
+		fmt.Println(fmt.Sprintf("added files to directory %s", dirName))
+
+		// create a file directory json in the directory
+		err = utils.WriteFileDirectoryJSONToStorage(dirName, fileDirectory)
+		if err != nil {
+			fmt.Println(fmt.Sprintf("failed to create file directory json at %s", dirName))
+		}
+
+		fmt.Println(fmt.Sprintf("created file directory json at %s, with %d entries", dirName, len(fileDirectory)))
+
+		// finally return the merkle root and the directory
 		return c.JSON(http.StatusOK, types.FilesUploadResponse{
 			Directory: fileDirectory,
-			Root:      merkleTreeRoot,
+			Root:      merkleRoot,
 		})
 	}
 }

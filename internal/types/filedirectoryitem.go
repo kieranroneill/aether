@@ -1,6 +1,6 @@
 package types
 
 type FileDirectoryItem struct {
-	Hash string `json:"name"`
-	Name string `json:"hash"`
+	Hash string `json:"hash"`
+	Name string `json:"name"`
 }
