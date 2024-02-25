@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/kieranroneill/aether/compare/v1.1.0...v1.2.0) (2024-02-25)
+
+
+### Features
+
+* verify file proof ([#4](https://github.com/kieranroneill/aether/issues/4)) ([b511afb](https://github.com/kieranroneill/aether/commit/b511afba77af2cd05956cc88ac53d7721fca2fc1))
+
 # [1.1.0](https://github.com/kieranroneill/aether/compare/v1.0.0...v1.1.0) (2024-02-25)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@kieranroneill/aether",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "aether is a modern file storage platform that implements a state-of-the-art Merkle tree structure to store multiple files",
   "main": "./.build/index.js",
   "repository": {
