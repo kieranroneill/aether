@@ -6,9 +6,9 @@ import (
 	"encoding/hex"
 )
 
-// Given the hash and the merkletree, determine whether the leaf node is a left or
+// determineLeafNodeDirectionFromHash Given the hash and the merkletree, determine whether the leaf node is a left or
 // right node
-func determineLeafNodeDirectionFromHash(merkletree [][]string, leafHash string, level int) int {
+func determineLeafNodePositionFromHash(merkletree [][]string, leafHash string, level int) int {
 	for nodeIndex, value := range merkletree[level] { // we are only concerned with the bottom level
 		if value == leafHash {
 			if nodeIndex%2 == 0 { // if the index is even, this will be a left node, otherwise (odd) will be a right leaf
@@ -23,7 +23,7 @@ func determineLeafNodeDirectionFromHash(merkletree [][]string, leafHash string, 
 	return -1
 }
 
-// A Merkle Tree must have an even number of nodes, if the number of hashes is odd, we append the last hash to the end
+// prepareHashes A Merkle Tree must have an even number of nodes, if the number of hashes is odd, we append the last hash to the end
 // to make it even
 func prepareHashes(hashes []string) []string {
 	if len(hashes)%2 != 0 {

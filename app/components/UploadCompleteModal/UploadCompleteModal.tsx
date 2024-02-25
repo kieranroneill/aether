@@ -34,7 +34,7 @@ import type { IProps } from './types';
 // utils
 import downloadJSONFile from '@app/utils/downloadJSONFile';
 
-const UploadCompleteModal: FC<IProps> = ({ merkleTreeRootHash, onClose }) => {
+const UploadCompleteModal: FC<IProps> = ({ onClose, uploadResponse }) => {
   // hooks
   const defaultTextColor: string = useDefaultTextColor();
   const logger: ILogger = useLogger();
@@ -44,7 +44,7 @@ const UploadCompleteModal: FC<IProps> = ({ merkleTreeRootHash, onClose }) => {
   const handleDownloadMerkleRoot = () => {
     const _functionName: string = 'handleDownloadMerkleRoot';
 
-    if (!merkleTreeRootHash) {
+    if (!uploadResponse) {
       logger.debug(
         `${UploadCompleteModal.displayName}#${_functionName}: no merkle tree root hash found, ignoring`
       );
@@ -52,16 +52,14 @@ const UploadCompleteModal: FC<IProps> = ({ merkleTreeRootHash, onClose }) => {
       return;
     }
 
-    // create a data uri from the json and download ir
-    downloadJSONFile('root', {
-      root: merkleTreeRootHash,
-    });
+    // create a data uri from the json and download it
+    downloadJSONFile('response', uploadResponse);
   };
 
   return (
     <Modal
       closeOnOverlayClick={false}
-      isOpen={!!merkleTreeRootHash}
+      isOpen={!!uploadResponse}
       onClose={onClose}
     >
       <ModalOverlay />
@@ -82,19 +80,19 @@ const UploadCompleteModal: FC<IProps> = ({ merkleTreeRootHash, onClose }) => {
 
             {/*merkle tree root hash*/}
             <HStack alignItems="center" spacing={1} w="full">
-              {!merkleTreeRootHash ? (
+              {!uploadResponse ? (
                 <Skeleton height="20px" w="full" />
               ) : (
                 <>
                   {/*merkle tree root hash*/}
                   <Code borderRadius="md" flexGrow={1} wordBreak="break-word">
-                    {merkleTreeRootHash}
+                    {uploadResponse.root}
                   </Code>
 
                   {/*copy button*/}
                   <CopyIconButton
                     ariaLabel={`Copy hash`}
-                    value={merkleTreeRootHash}
+                    value={uploadResponse.root}
                   />
                 </>
               )}

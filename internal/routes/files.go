@@ -3,7 +3,6 @@ package routes
 import (
 	"aether/internal/constants"
 	"aether/internal/errors"
-	internalfiles "aether/internal/files"
 	"aether/internal/merkletree"
 	"aether/internal/types"
 	"aether/internal/utils"
@@ -12,70 +11,18 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"sort"
 )
 
-func copyFiles(srcDir string, destDir string, fileMetadatas []*types.FileMetadata) error {
-	// create a new directory at the root .files directory with the merkle tree root as the name
-	writeError := internalfiles.CreateDirectory(destDir)
-	if writeError != nil {
-		fmt.Println(writeError)
-
-		// attempt to clean up
-		err := removeTempFiles(srcDir)
-		if err != nil {
-			return err
-		}
-
-		return writeError.Error
-	}
-
-	for _, fileMetadata := range fileMetadatas {
-		// read the source file
-		srcFile, err := os.Open(fmt.Sprintf("%s/%s", srcDir, fileMetadata.FileName))
-		if err != nil {
-			return err
-		}
-		defer srcFile.Close()
-
-		// create the destination file
-		destFile, err := os.Create(fmt.Sprintf("%s/%s", destDir, fileMetadata.FileName))
-		if err != nil {
-			return err
-		}
-		defer destFile.Close()
-
-		// copy the contents over
-		_, err = io.Copy(destFile, srcFile)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func extractFileHashesFromFileMetadata(fileMetadatas []*types.FileMetadata) []string {
-	hashes := make([]string, len(fileMetadatas))
-
-	for i := range fileMetadatas {
-		hashes[i] = fileMetadatas[i].Hash
-	}
-
-	return hashes
-}
-
-func removeTempFiles(tempDir string) error {
-	err := os.RemoveAll(fmt.Sprintf("%s", tempDir)) // the entire .temp/ subdirectory
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func NewFilesUploadRoute() echo.HandlerFunc {
+func NewGetFilesRoute() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var fileMetadatas []*types.FileMetadata
+		return c.JSON(http.StatusOK, c)
+	}
+}
+
+func NewPostFilesUploadRoute() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var fileDirectory []*types.FileDirectoryItem
 		var hashError *errors.HashError
 		var readError *errors.ReadError
 		var writeError *errors.WriteError
@@ -88,26 +35,28 @@ func NewFilesUploadRoute() echo.HandlerFunc {
 		}
 
 		formFiles := form.File["files"]
-		tempSubDir, err := utils.CreateRandomSha256Hash()
+		subDirName, err := utils.CreateRandomSha256Hash()
 		if err != nil {
-			hashError = errors.NewHashError("failed to create temp sub-directory hash", err)
+			hashError = errors.NewHashError("failed to create .files/ subdirectory hash", err)
 
 			fmt.Println(hashError)
 
 			return c.JSON(http.StatusInternalServerError, hashError)
 		}
 
-		tempDir := fmt.Sprintf("%s/%s", constants.TempFileDirectory, tempSubDir)
+		dirName := fmt.Sprintf("%s/%s", constants.RootFileDirectory, subDirName)
 
-		// create the temp subdirectory where the files will be stored before the merkle root is calculated
-		writeError = internalfiles.CreateDirectory(tempDir)
-		if writeError != nil {
+		// create the subdirectory to store these files
+		err = utils.CreateDirectory(dirName)
+		if err != nil {
+			writeError = errors.NewWriteError(fmt.Sprintf("failed create the %s directory", dirName), err)
+
 			fmt.Println(writeError)
 
 			return c.JSON(http.StatusInternalServerError, writeError)
 		}
 
-		// iterate through each file, hash it and copy it to the .temp/ directory
+		// iterate through each file, hash it and copy it to the .files/<subDirName> directory
 		for _, fileHeader := range formFiles {
 			// read file
 			uploadFile, err := fileHeader.Open()
@@ -121,8 +70,10 @@ func NewFilesUploadRoute() echo.HandlerFunc {
 			defer uploadFile.Close()
 
 			// get a hash of the file
-			fileHash, hashError := internalfiles.HashFile(uploadFile, fileHeader.Filename)
-			if hashError != nil {
+			fileHash, err := utils.HashFile(uploadFile, fileHeader.Filename)
+			if err != nil {
+				hashError := errors.NewHashError(fmt.Sprintf("unable to hash file %s", fileHeader.Filename), err)
+
 				fmt.Println(hashError)
 
 				return c.JSON(http.StatusInternalServerError, hashError)
@@ -130,24 +81,25 @@ func NewFilesUploadRoute() echo.HandlerFunc {
 
 			fmt.Println(fmt.Sprintf("file %s has a hash of %s", fileHeader.Filename, fileHash))
 
-			fileMetadatas = append(fileMetadatas, &types.FileMetadata{
-				FileName: fileHeader.Filename,
-				Hash:     fileHash,
+			// add to the directory
+			fileDirectory = append(fileDirectory, &types.FileDirectoryItem{
+				Hash: fileHash,
+				Name: fileHeader.Filename,
 			})
 
-			// store the file in the .temp/ directory
-			tempFile, err := os.Create(fmt.Sprintf("%s/%s", tempDir, fileHeader.Filename))
+			// store the file in the .files/<subDirName> directory
+			destFile, err := os.Create(fmt.Sprintf("%s/%s", dirName, fileHeader.Filename))
 			if err != nil {
-				writeError = errors.NewWriteError(fmt.Sprintf("failed to write file %s", fileHeader.Filename), err)
+				writeError = errors.NewWriteError(fmt.Sprintf("failed to write file to %s/%s", dirName, fileHeader.Filename), err)
 
 				fmt.Println(writeError)
 
 				return c.JSON(http.StatusInternalServerError, writeError)
 			}
-			defer tempFile.Close()
+			defer destFile.Close()
 
-			// copy file contents to of the files
-			if _, err = io.Copy(tempFile, uploadFile); err != nil {
+			// copy file contents to of the files from the upload to the source
+			if _, err = io.Copy(destFile, uploadFile); err != nil {
 				writeError = errors.NewWriteError(fmt.Sprintf("failed to write contents of file %s", fileHeader.Filename), err)
 
 				fmt.Println(writeError)
@@ -156,38 +108,26 @@ func NewFilesUploadRoute() echo.HandlerFunc {
 			}
 		}
 
+		// sort the directory by hash
+		sort.Slice(fileDirectory, func(i int, j int) bool {
+			return fileDirectory[i].Hash < fileDirectory[j].Hash
+		})
+
 		// create a merkle tree root
-		merkleTreeRoot := merkletree.GenerateMerkleTreeRoot(extractFileHashesFromFileMetadata(fileMetadatas))
-		merkleTreeRootDir := fmt.Sprintf("%s/%s", constants.RootFileDirectory, merkleTreeRoot)
+		merkleTreeRoot := merkletree.GenerateMerkleTreeRoot(utils.ExtractHashesFromFileDirectory(fileDirectory))
 
 		fmt.Println(fmt.Sprintf("created merkle tree root %s", merkleTreeRoot))
-		fmt.Println(fmt.Sprintf("copying files from %s to %s", tempDir, merkleTreeRootDir))
 
-		// copy the files from the .temp/ directory to the .files/ merkle tree directory
-		err = copyFiles(
-			tempDir,
-			merkleTreeRootDir,
-			fileMetadatas,
-		)
+		// create a directory file
+		err = utils.WriteFileDirectoryToStorage(dirName, fileDirectory)
 		if err != nil {
-			writeError = errors.NewWriteError(fmt.Sprintf("failed to copy files from %s to %s", tempDir, merkleTreeRootDir), err)
-
-			fmt.Println(writeError)
-
-			return c.JSON(http.StatusInternalServerError, writeError)
-		}
-
-		fmt.Println(fmt.Sprintf("cleaning up files from %s", tempDir))
-
-		// remove the temp directory files
-		err = removeTempFiles(tempDir)
-		if err != nil {
-			fmt.Println(err)
+			fmt.Println(fmt.Sprintf("failed to create directory file at %s", dirName))
 		}
 
 		// finally return the merkle tree root
 		return c.JSON(http.StatusOK, types.FilesUploadResponse{
-			Root: merkleTreeRoot,
+			Directory: fileDirectory,
+			Root:      merkleTreeRoot,
 		})
 	}
 }

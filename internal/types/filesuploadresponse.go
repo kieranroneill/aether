@@ -1,5 +1,6 @@
 package types
 
 type FilesUploadResponse struct {
-	Root string `json:"root"`
+	Directory []*FileDirectoryItem `json:"directory"`
+	Root      string               `json:"root"`
 }

@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func NewVersionsRoute() echo.HandlerFunc {
+func NewGetVersionsRoute() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		return c.JSON(http.StatusOK, types.VersionsResponse{
 			Environment: os.Getenv("ENVIRONMENT"),

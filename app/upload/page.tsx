@@ -27,7 +27,7 @@ import { IoCloudUploadOutline, IoDocumentsOutline } from 'react-icons/io5';
 import UploadCompleteModal from '@app/components/UploadCompleteModal/UploadCompleteModal';
 
 // constants
-import { DEFAULT_GAP } from '@app/constants';
+import { DEFAULT_GAP, FILES_PATH, UPLOAD_PATH } from '@app/constants';
 
 // hooks
 import useDefaultTextColor from '@app/hooks/useDefaultTextColor';
@@ -54,13 +54,13 @@ const UploadPage: NextPage = () => {
   const primaryColorScheme: string = usePrimaryColorScheme();
   // state
   const [fileList, setFileList] = useState<FileList | null>(null);
-  const [merkleTreeRootHash, setMerkleTreeRootHash] = useState<string | null>(
+  const [uploadResponse, setUploadResponse] = useState<IUploadResponse | null>(
     null
   );
   const [uploading, setUploading] = useState<boolean>(false);
   // misc
   const reset = () => {
-    setMerkleTreeRootHash(null);
+    setUploadResponse(null);
     setFileList(null);
     setUploading(false);
   };
@@ -85,12 +85,12 @@ const UploadPage: NextPage = () => {
 
     // create the form data
     Array.from(fileList).forEach((file) =>
-      formData.append('files', file, file.name)
+      formData.append('file', file, file.name)
     );
 
     try {
       response = await axios.post(
-        'http://localhost:3000/files/upload',
+        `${process.env.NEXT_PUBLIC_CORE_URL}/${FILES_PATH}/${UPLOAD_PATH}`,
         formData
       );
 
@@ -99,7 +99,7 @@ const UploadPage: NextPage = () => {
         response.data
       );
 
-      setMerkleTreeRootHash(response.data.root);
+      setUploadResponse(response.data);
       setUploading(false);
     } catch (error) {
       logger.error(`${UploadPage.displayName}#${_functionName}:`, error);
@@ -130,8 +130,8 @@ const UploadPage: NextPage = () => {
   return (
     <>
       <UploadCompleteModal
-        merkleTreeRootHash={merkleTreeRootHash}
         onClose={handleUploadModalClose}
+        uploadResponse={uploadResponse}
       />
       <VStack
         alignItems="center"

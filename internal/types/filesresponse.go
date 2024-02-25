@@ -1,6 +1,6 @@
 package types
 
-type FileMetadata struct {
+type FilesResponse struct {
 	FileName string
 	Hash     string
 }
