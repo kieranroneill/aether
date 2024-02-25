@@ -17,11 +17,12 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
-import React from 'react';
-import { IoDownloadOutline } from 'react-icons/io5';
+import React, { useState } from 'react';
+import { IoCheckmarkDoneOutline, IoDownloadOutline } from 'react-icons/io5';
 
 // components
 import CopyIconButton from '@app/components/CopyIconButton';
+import VerifyFileProofModal from '@app/components/VerifyFileProofModal';
 
 // constants
 import { DEFAULT_GAP } from '@app/constants';
@@ -44,9 +45,14 @@ const FilesPage: NextPage = () => {
   const defaultTextColor: string = useDefaultTextColor();
   const subTextColor: string = useSubTextColor();
   const { files, loading } = useFiles();
+  // state
+  const [fileToVerify, setFileToVerify] = useState<IFileResponse | null>(null);
   // handlers
   const handleDownloadProofClick = (file: IFileResponse) => () =>
     downloadJSONFile(file.hash, file.proof);
+  const handleVerifyFileProofClick = (file: IFileResponse) => () =>
+    setFileToVerify(file);
+  const handleVerifyFileProofModalClose = () => setFileToVerify(null);
   // renders
   const renderContent = () => {
     let fileKeys: string[];
@@ -125,6 +131,19 @@ const FilesPage: NextPage = () => {
                           variant="ghost"
                         />
                       </Tooltip>
+
+                      {/*verify proof*/}
+                      <Tooltip label={`Verify Proof`}>
+                        <IconButton
+                          _hover={{ bg: buttonHoverBackgroundColor }}
+                          aria-label="Verify proof"
+                          color={defaultTextColor}
+                          icon={<IoCheckmarkDoneOutline />}
+                          onClick={handleVerifyFileProofClick(file)}
+                          size="md"
+                          variant="ghost"
+                        />
+                      </Tooltip>
                     </HStack>
                   ))}
                 </AccordionPanel>
@@ -146,33 +165,40 @@ const FilesPage: NextPage = () => {
   };
 
   return (
-    <VStack
-      alignItems="center"
-      justifyContent="flex-start"
-      flexGrow={1}
-      spacing={DEFAULT_GAP}
-      w="full"
-    >
-      {/*heading*/}
-      <Heading color={defaultTextColor} size="lg" textAlign="center" w="full">
-        {`Files`}
-      </Heading>
-
-      {/*description*/}
-      <Text color={defaultTextColor} size="md" textAlign="center" w="full">
-        {`Below is a list of files, grouped by their merkle tree roots. You can download a file's proof and use the root you received to verify the file's integrity.`}
-      </Text>
+    <>
+      <VerifyFileProofModal
+        file={fileToVerify}
+        onClose={handleVerifyFileProofModalClose}
+      />
 
       <VStack
         alignItems="center"
+        justifyContent="flex-start"
         flexGrow={1}
-        justify="flex-start"
-        spacing={DEFAULT_GAP - 2}
+        spacing={DEFAULT_GAP}
         w="full"
       >
-        {renderContent()}
+        {/*heading*/}
+        <Heading color={defaultTextColor} size="lg" textAlign="center" w="full">
+          {`Files`}
+        </Heading>
+
+        {/*description*/}
+        <Text color={defaultTextColor} size="md" textAlign="center" w="full">
+          {`Below is a list of files, grouped by their merkle tree roots. You can download a file's proof and use the root you received to verify the file's integrity.`}
+        </Text>
+
+        <VStack
+          alignItems="center"
+          flexGrow={1}
+          justify="flex-start"
+          spacing={DEFAULT_GAP - 2}
+          w="full"
+        >
+          {renderContent()}
+        </VStack>
       </VStack>
-    </VStack>
+    </>
   );
 };
 
